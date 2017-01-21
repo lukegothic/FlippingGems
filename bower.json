@@ -1,0 +1,22 @@
+{
+  "name": "ggj2017",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "xabixab <xabixab@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/lukegothic/ggj2017",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "p5.js": "p5js#^0.5.6",
+    "jquery": "^3.1.1"
+  }
+}
