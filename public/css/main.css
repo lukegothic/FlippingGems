@@ -67,9 +67,10 @@ body {
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     opacity: 0.0;
+    pointer-events: none;
 }
 @-webkit-keyframes pulsate {
-    0% {transform: scale(0.1, 0.1); opacity: 1;}
+    0% {transform: scale(0.1, 0.1); opacity: 1.0;}
     50% {opacity: 1.0;}
     99% {transform: scale(1.2, 1.2); opacity: 0.0;}
     100% {transform: scale(0.1, 0.1); }
