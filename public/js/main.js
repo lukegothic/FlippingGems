@@ -1,5 +1,7 @@
 Game = window.Game || {};
 Game.boardSize = 6;
+Game.bgMusic = null;
+Game.placeTileSound = null;
 Game.PLAYERNUM = {
     NONE: 0,
     P1: 1,
@@ -124,6 +126,7 @@ Game.init = function() {
             Game.board[squareInfo.x][squareInfo.y].who = Game.currentPlayer;
             square.removeClass().addClass("tile square player" + Game.currentPlayer);
             Game.generatePulsation(square);
+            Game.placeTileSound[0].play();
             var adjacentSquares = Game.getAdjacentSquares(squareInfo);
             var theSquare;
             for (var i = 0; i < adjacentSquares.length; i++) {
@@ -147,6 +150,9 @@ Game.init = function() {
     $("#newGame").click(function() {
         Game.newGame();
     });
+    this.bgMusic = $("#bgSound");
+    this.bgMusic[0].volume = 0.15;
+    this.placeTileSound = $("#ficha");
     this.newGame();
 };
 Game.init();
