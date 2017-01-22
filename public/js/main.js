@@ -9,7 +9,7 @@ Game.board = [];
 Game.currentPlayer = null;
 Game.displayPlayer = function(player) {
     player = player || this.currentPlayer;
-    $("body").removeClass().addClass("player" + this.currentPlayer);
+    $("body").removeClass().addClass("player" + player);
 };
 Game.nextPlayer = function() {
     switch (this.currentPlayer) {
