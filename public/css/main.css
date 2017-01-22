@@ -3,20 +3,35 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+body {
+    text-align: center;
+    margin:0;
+    padding:0;
+}
+.scores {
+    font-size: 1.5em;
+    background-color: #fff;
+    margin-bottom: 0.5em;
+}
+.board {
+    border:5px solid #999;
+    display: inline-block;
+}
+.boardrow {
+    display:flex;;
+}
+.square {
+    width:45px;
+    height:45px;
+    border:1px solid black;
+    display: inline-block;
+}
+.player0 {
+    background-color: #eee;
+}
+.player1 {
+    background-color: #f00;
+}
+.player2 {
+    background-color: #00f;
+}
