@@ -101,20 +101,33 @@ Game.endGame = function (scores) {
     }
     $("#end").show();
 };
+Game.generateWave = function(src) {
+    //$("body").append($("<div>").addClass("gps").position(src.position()));
+    var pos = src.position();
+    $("body").append($("<div>").addClass("gps").css({ "left": pos.left - (src.width()), "top": pos.top - (src.height()) }));
+};
+Game.generatePulsation = function(src) {
+    $(".gps").remove();
+    Game.generateWave(src);
+    window.setTimeout(function () {
+        Game.generateWave(src);
+    }, 200);
+}
 Game.init = function() {
     $(".board").on("click", ".square", function() {
         var square = $(this);
         var squareInfo = square.data();
         if (Game.board[squareInfo.x][squareInfo.y].who == Game.PLAYERNUM.NONE) {
             Game.board[squareInfo.x][squareInfo.y].who = Game.currentPlayer;
-            square.addClass("player" + Game.currentPlayer);
+            square.removeClass().addClass("tile square player" + Game.currentPlayer);
+            Game.generatePulsation(square);
             var adjacentSquares = Game.getAdjacentSquares(squareInfo);
             var theSquare;
             for (var i = 0; i < adjacentSquares.length; i++) {
                 theSquare = Game.board[adjacentSquares[i].x][adjacentSquares[i].y];
                 if (theSquare.who !== Game.currentPlayer && theSquare.who !== Game.PLAYERNUM.NONE) {
                     theSquare.who = Game.currentPlayer;
-                    theSquare.elem.removeClass().addClass("square player" + Game.currentPlayer);
+                    theSquare.elem.removeClass().addClass("tile square player" + Game.currentPlayer);
                 }
             }
             var scores = Game.getScores();
