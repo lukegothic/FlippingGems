@@ -1,0 +1,50 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+    </head>
+    <body>
+      <div id="game-container">
+        <div class="scores">
+            <span class="player1">Rojo&nbsp;</span><span id="p1score"></span>
+            <span id="p2score"></span><span class="player2">&nbsp;Azul</span>
+        </div>
+        <div class="board"></div>
+        <!--
+            <audio autoplay loop>
+              <source src="music/bg.mp3" type="audio/mpeg">
+            </audio>
+        -->
+        <div id="end">
+            <div id="winner"></div>
+            <input id="newGame" type="button" value="Otra partida" />
+        </div>
+      </div>
+
+      <div id="loading-match">
+        <h3>
+          Esperando oponente
+        </h3>
+      </div>
+        <script src="vendor/jquery/dist/jquery.min.js"></script>
+
+        <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- <script src="js/plugins.js"></script> -->
+        <script src="js/main_mp.js"></script>
+        <script src="js/matchManager.js"></script>
+        <script>
+          $(function(){
+            $("#game-container").hide();
+          });
+        </script>
+    </body>
+</html>

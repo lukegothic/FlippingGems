@@ -22,8 +22,24 @@ class matchManager{
     return self.lastMatchId;
   }
 
+  endMatch(match, reason){
+    var self = this;
+    self.matches[match].players.forEach(function(player, index, players){
+      if (self.io.sockets.connected[player]!=undefined) {
+        self.io.sockets.connected[player].emit("endMatch", {
+          reason: reason
+        });
+        self.joinRequest(player)
+      }
+    });
+
+    self.matches.splice(match, 1);
+  }
+
   matchInfo(matchId){
-    return {};
+    return {
+      id: matchId,
+    };
   }
 
   appendPlayerToMatch(match, player){
@@ -43,6 +59,14 @@ class matchManager{
 
     self.onlinePlayers.splice(self.onlinePlayers.indexOf(player), 1); // Remove from the online table
     self.unmatchedClients.splice(self.unmatchedClients.indexOf(player), 1); // Remove from the unmatched table
+
+    self.matches.forEach(function(match, mindex, matches){
+      match.players.forEach(function(mplayer, index, players){
+          if(mplayer == player){
+            self.endMatch(mindex, "Player Disconnected");
+          }
+      });
+    });
 
     console.log("Disconnected player " + player + " total:" + self.onlinePlayers.length);
   }
