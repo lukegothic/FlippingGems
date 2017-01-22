@@ -7,12 +7,6 @@ body {
     text-align: center;
     margin:0;
     padding:0;
-
-    user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
 }
 .presentacion {
     position: absolute;
