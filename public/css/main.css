@@ -8,10 +8,32 @@ body {
     margin:0;
     padding:0;
 }
+.presentacion {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left:0;
+    background:url(../img/portada-gems.png) no-repeat;
+    z-index: 100;
+}
 .scores {
     font-size: 1.5em;
-    background-color: #fff;
-    margin-bottom: 0.5em;
+    background-color: #000;
+    margin-bottom: 1em;
+    padding:0.2em 0;
+    border-bottom:4px solid #fff;
+}
+.scores .btn, .scores .badge {
+    width:35%;
+    font-size:1em;
+    font-family: 'Rubik', sans-serif;
+}
+.alignright {
+    text-align: right;
+}
+.alignleft {
+    text-align: left;
 }
 .board {
     border:5px outset #999;
@@ -27,21 +49,28 @@ body {
     display: inline-block;
 }
 .tile {
-    border: 3px outset #999;
+    /*border: 3px outset #999;*/
 }
 .player0 {
-    background-color: #eee;
+    background:url(../img/casilla.png) no-repeat;
+    background-size:45px 45px;
 }
 .player1 {
-    background: repeating-radial-gradient(
+    background:url(../img/rojo.png) no-repeat;
+    background-size:43px 43px;
+    /*background: repeating-radial-gradient(
       circle,
       red,
       red 10px,
       #c70000 10px,
       #c70000 20px
     );
+    */
 }
 .player2 {
+    background:url(../img/azul.png) no-repeat;
+    background-size:43px 43px;
+    /*
     background: repeating-linear-gradient(
       45deg,
       #606dbc,
@@ -49,12 +78,47 @@ body {
       #465298 10px,
       #465298 20px
     );
+    */
+}
+.player1text {
+    color:#f00;
+}
+.player2text {
+    color:#00f;
+}
+.player1bg {
+    background:url(../img/fondo-rojo.png) no-repeat;
+}
+.player2bg {
+    background:url(../img/fondo-azul.png) no-repeat;
 }
 #end {
-    background-color: #fff;
-    margin-top: 0.5em;
-    padding-bottom: 0.5em;
+    background-color: rgba(0,0,0,0.7);
     font-size: 1.5em;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left:0;
+    z-index: 100;
+}
+#winner {
+    color:#fff;
+    font-weight: bold;
+    font-family: 'Rubik', sans-serif;
+    margin-top: 30%;
+    font-size:2em;
+}
+#winner span {
+    display:block;
+    font-size: 2.5em;
+    animation: pulsateBIG 1s ease-out;
+    animation-iteration-count: infinite;
+}
+@keyframes pulsateBIG {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1.2, 1.2); }
+    100% {transform: scale(1, 1); }
 }
 
 .gps {
@@ -69,7 +133,7 @@ body {
     opacity: 0.0;
     pointer-events: none;
 }
-@-webkit-keyframes pulsate {
+@keyframes pulsate {
     0% {transform: scale(0.1, 0.1); opacity: 1.0;}
     50% {opacity: 1.0;}
     99% {transform: scale(1.2, 1.2); opacity: 0.0;}

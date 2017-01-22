@@ -9,7 +9,7 @@ Game.board = [];
 Game.currentPlayer = null;
 Game.displayPlayer = function(player) {
     player = player || this.currentPlayer;
-    $("body").removeClass().addClass("player" + player);
+    $("body").removeClass().addClass("player" + player + "bg");
 };
 Game.nextPlayer = function() {
     switch (this.currentPlayer) {
@@ -84,16 +84,19 @@ Game.newGame = function() {
         }
         $(".board").append(rowElm);
     }
+    $(".presentacion").click(function() {
+        $(this).fadeOut();
+    })
     this.updateScore();
     this.nextPlayer();
 };
 Game.endGame = function (scores) {
     var winner = $("#winner");
     if (scores[this.PLAYERNUM.P1] > scores[this.PLAYERNUM.P2]) {
-        winner.html("GANA EL ROJO");
+        winner.html("GANA EL <span class='player1text'>ROJO</span>");
         this.displayPlayer(this.PLAYERNUM.P1);
     } else if (scores[this.PLAYERNUM.P1] < scores[this.PLAYERNUM.P2]) {
-        winner.html("GANA EL AZUL");
+        winner.html("GANA EL <span class='player2text'>AZUL</span>");
         this.displayPlayer(this.PLAYERNUM.P2);
     } else {
         winner.html("EMPATE");
