@@ -151,7 +151,7 @@ Game.init = function() {
         Game.newGame();
     });
     this.bgMusic = $("#bgSound");
-    this.bgMusic[0].volume = 0.15;
+    this.bgMusic[0].volume = 0.1;
     this.placeTileSound = $("#ficha");
     this.newGame();
 };

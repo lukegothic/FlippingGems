@@ -7,11 +7,13 @@ body {
     text-align: center;
     margin:0;
     padding:0;
+    width:320px;
+    height: 480px;
 }
 .presentacion {
     position: absolute;
-    height: 100%;
-    width: 100%;
+    height: 480px;
+    width: 320px;
     top:0;
     left:0;
     background:url(../img/portada-gems.png) no-repeat;
@@ -96,8 +98,8 @@ body {
     background-color: rgba(0,0,0,0.7);
     font-size: 1.5em;
     position: absolute;
-    height: 100%;
-    width: 100%;
+    height: 480px;
+    width: 320px;
     top:0;
     left:0;
     z-index: 100;
