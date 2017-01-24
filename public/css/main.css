@@ -55,7 +55,7 @@ body {
 }
 .player0 {
     background:url(../img/casilla.png) no-repeat;
-    background-size:45px 45px;
+    background-size:43px 43px;
 }
 .player1 {
     background:url(../img/rojo.png) no-repeat;
