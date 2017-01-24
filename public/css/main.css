@@ -7,7 +7,7 @@ body {
     text-align: center;
     margin:0;
     padding:0;
-    width:320px;
+    width: 320px;
     height: 480px;
 }
 .presentacion {
@@ -16,7 +16,7 @@ body {
     width: 320px;
     top:0;
     left:0;
-    background:url(../img/portada-gems.png) no-repeat;
+    background: url(../img/portada-gems.png) no-repeat;
     z-index: 100;
 }
 .scores {
@@ -40,9 +40,10 @@ body {
 .board {
     border:5px outset #999;
     display: inline-block;
+   background-color:#999;
 }
 .boardrow {
-    display:flex;;
+    display:flex;
 }
 .square {
     width:45px;
@@ -60,27 +61,10 @@ body {
 .player1 {
     background:url(../img/rojo.png) no-repeat;
     background-size:43px 43px;
-    /*background: repeating-radial-gradient(
-      circle,
-      red,
-      red 10px,
-      #c70000 10px,
-      #c70000 20px
-    );
-    */
 }
 .player2 {
     background:url(../img/azul.png) no-repeat;
     background-size:43px 43px;
-    /*
-    background: repeating-linear-gradient(
-      45deg,
-      #606dbc,
-      #606dbc 10px,
-      #465298 10px,
-      #465298 20px
-    );
-    */
 }
 .player1text {
     color:#f00;
