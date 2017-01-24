@@ -1,6 +1,5 @@
 var fs = require("fs");
 var config =  JSON.parse(fs.readFileSync(__dirname + "/config.json"));
-
 var express = require('express');
 var app = express();
 var server = app.listen(config.webport);
@@ -20,7 +19,6 @@ var game = new Game({
 
 });
 
-
 io.on('connection', function (socket) {
   mm.connect(socket.id);
 	socket.emit('welcome', game.generateWelcome(socket.id));
@@ -33,6 +31,17 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     mm.disconnect(socket.id);
   });
+
+  socket.on("mvr", function(data){
+    console.log("MV: " + data);
+    io.emit("mvs", data); // Yes, emit to all, just testing.
+  });
 });
 
-io.on
+
+
+app.get('/info', function (req, res) {
+  //var data = util.inspect(mm.returnData());
+  // var response = JSON.stringify(data, null, 2);
+  res.send(mm.returnData());
+});

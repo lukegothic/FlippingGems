@@ -1,3 +1,4 @@
+const util = require('util');
 class matchManager{
   constructor(params){
     var self = this;
@@ -8,6 +9,20 @@ class matchManager{
     self.onlinePlayers = [];
     self.matchPlayers = self.params.matchPlayers;
     self.lastMatchId = 0;
+  }
+
+  returnData(){
+    var self = this;
+    /*return {
+      "params": self.params,
+      //"io": self.io,
+      "unMatchedClients": self.unmatchedClients,
+      "matches": self.matches,
+      "onlinePlayers": self.onlinePlayers,
+      "matchPlayers": self.matchPlayers,
+      "lastMatchId": self.lastMatchId
+    };*/
+    return util.inspect(self);
   }
 
   newMatch(){
@@ -29,11 +44,11 @@ class matchManager{
         self.io.sockets.connected[player].emit("endMatch", {
           reason: reason
         });
-        self.joinRequest(player)
+        // self.joinRequest(player)
       }
     });
 
-    self.matches.splice(match, 1);
+    delete self.matches[match];
   }
 
   matchInfo(matchId){
@@ -71,6 +86,10 @@ class matchManager{
     console.log("Disconnected player " + player + " total:" + self.onlinePlayers.length);
   }
 
+  calculateTurn(){
+
+  }
+
   joinRequest(client){
     var self = this;
 
@@ -87,11 +106,20 @@ class matchManager{
       for (var i = 0; i < self.matchPlayers; i++) {
         self.appendPlayerToMatch(matchId, self.unmatchedClients[Math.floor(Math.random() * self.unmatchedClients.length)]); // get random element from unmatched clients
       };
-
+      var turn = self.matches[matchId].players[Math.floor(Math.random() * self.matches[matchId].players.length)]
       self.matches[matchId].players.forEach(function(player, index, arr){
-      //   player.emit("matchInfo", self.matchInfo(matchId));
+        var yturn;
+        if(player == turn){
+          yturn = true;
+        } else {
+          yturn = false;
+        }
+
         console.log("Joined to a match " + player + " " + JSON.stringify(arr));
-        self.io.sockets.connected[player].emit("matchInfo", matchId);
+        self.io.sockets.connected[player].emit("matchInfo", {
+          id: matchId,
+          turn: yturn
+        });
       });
 /*
       for (var i = 0; i < self.matches[matchId].players.length; i++) {

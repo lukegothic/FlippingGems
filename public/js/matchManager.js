@@ -34,6 +34,7 @@ mm.ready(function(){
   mm.requestMatch(function(matchInfo){
     var yourTurn = matchInfo.turn;
     var matchId = matchInfo.id;
+    Game.turn = yourTurn;
     Game.init();
     $("#game-container").show();
     $("#loading-match").hide();
