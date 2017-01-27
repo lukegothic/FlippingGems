@@ -2,7 +2,6 @@ Game = window.Game || {};
 Game.AI = (function () {
     var ai = {};
     ai.algorithm = null;
-    ai.id = 3;
     var EasyAlgorithm = function() {
         // Mapear puntuaciones
         var boardScores = [], score;
@@ -14,19 +13,19 @@ Game.AI = (function () {
                 } else {
                     squareScore = 0;
                     // arriba
-                    if (f > 0 && Game.board[f-1][c].who != Game.PLAYERNUM.NONE && Game.board[f-1][c].who != ai.id) {
+                    if (f > 0 && Game.board[f-1][c].who && Game.board[f-1][c].who === Game.PLAYERNUM.P1) {
                         squareScore++;
                     }
                     // abajo
-                    if (f < (Game.board[f].length - 1) && Game.board[f+1][c].who != Game.PLAYERNUM.NONE && Game.board[f+1][c].who != ai.id) {
+                    if (f < (Game.board[f].length - 1) && Game.board[f+1][c].who === Game.PLAYERNUM.P1) {
                         squareScore++;
                     }
                     // izda
-                    if (c > 0 && Game.board[f][c-1].who != Game.PLAYERNUM.NONE && Game.board[f][c-1].who != ai.id) {
+                    if (c > 0 && Game.board[f][c-1].who === Game.PLAYERNUM.P1) {
                         squareScore++;
                     }
                     // drcha
-                    if (c < (Game.board[c].length - 1) && Game.board[f][c+1].who != Game.PLAYERNUM.NONE && Game.board[f][c+1].who != ai.id) {
+                    if (c < (Game.board[c].length - 1) && Game.board[f][c+1].who === Game.PLAYERNUM.P1) {
                         squareScore++;
                     }
                 }
@@ -50,6 +49,7 @@ Game.AI = (function () {
                 }
             }
         }
+        console.log(opts);
         return opts.length === 1 ? opts[0] : opts[Math.floor(Math.random() * opts.length)];
     };
     var MediumAlgorithm = function() {
