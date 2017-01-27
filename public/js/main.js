@@ -193,7 +193,7 @@ Game.init = function() {
         Game.newGame();
     });
     this.bgMusic = $("#bgSound");
-    this.bgMusic[0].volume = 0;
+    this.bgMusic[0].volume = 0.1;
     this.placeTileSound = $("#ficha");
     this.newGame();
 };
