@@ -19,6 +19,37 @@ body {
     background: url(../img/portada-gems.png) no-repeat;
     z-index: 100;
 }
+.seleccionmodo {
+    position: absolute;
+    height: 480px;
+    width: 320px;
+    top:0;
+    left:0;
+    z-index: 99;
+    background-color: #888;
+}
+.modo {
+    height: 240px; /* height: 180px; */
+    width: 320px;
+    color: #fff;
+    font-size: 3.1em;
+    font-weight: bold;
+    font-family: 'Rubik', sans-serif;
+    text-align: right;
+    padding-right: 0.2em;
+    border:5px outset #1d3240;
+    text-shadow: -2px 0 2px #000, 2px 0 2px #000, 0 -2px 2px #000, 0 2px 2px #000;
+}
+.modo.ranked {
+
+}
+.modo.hotseat {
+    background: url(../img/portada-gems.png) no-repeat center -190px;
+    background-size: 400px 550px;
+}
+.modo.vsai {
+    background: url(../img/fondo-rojo.png) no-repeat center center;
+}
 .scores {
     font-size: 1.5em;
     background-color: #000;

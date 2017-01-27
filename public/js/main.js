@@ -93,7 +93,23 @@ Game.getAdjacentSquares = function(position) {
     }
     return squares;
 };
-Game.newGame = function() {
+Game.setMode = function(mode) {
+    switch (mode) {
+        case this.MODE.RANKED:
+            this.nextPlayer = this.nextPlayerRANKED;
+        break;
+        case this.MODE.HOTSEAT:
+            this.nextPlayer = this.nextPlayerHOTSEAT;
+        break;
+        case this.MODE.VSAI:
+            this.nextPlayer = this.nextPlayerVSAI;
+        break;
+        default:
+            this.nextPlayer = this.nextPlayerVSAI;
+        break;
+    }
+};
+Game.newGame = function(mode) {
     $("#end").hide();
     this.currentPlayer = null;
     this.board = [];
@@ -111,23 +127,9 @@ Game.newGame = function() {
         }
         $(".board").append(rowElm);
     }
-    $(".presentacion").click(function() {
-        $(this).fadeOut();
-    })
     this.updateScore();
-    switch (this.mode) {
-        case this.MODE.RANKED:
-            this.nextPlayer = this.nextPlayerRANKED;
-        break;
-        case this.MODE.HOTSEAT:
-            this.nextPlayer = this.nextPlayerHOTSEAT;
-        break;
-        case this.MODE.VSAI:
-            this.nextPlayer = this.nextPlayerVSAI;
-        break;
-        default:
-            this.nextPlayer = this.nextPlayerVSAI;
-        break;
+    if (mode) {
+        this.setMode(mode);
     }
     this.nextPlayer();
 };
@@ -181,6 +183,10 @@ Game.placeMove = function(position) {
     }
 };
 Game.init = function() {
+    $("#end").hide();
+    $(".presentacion").click(function() {
+        $(this).fadeOut();
+    });
     $(".board").on("click", ".square", function() {
         var squareInfo = $(this).data();
         if (Game.board[squareInfo.x][squareInfo.y].who == Game.PLAYERNUM.NONE) {
@@ -195,6 +201,9 @@ Game.init = function() {
     this.bgMusic = $("#bgSound");
     this.bgMusic[0].volume = 0.1;
     this.placeTileSound = $("#ficha");
-    this.newGame();
+    $(".seleccionmodo .modo").click(function() {
+        Game.newGame(parseInt(this.dataset.mode));
+        $(".seleccionmodo").fadeOut(500);
+    });
 };
 Game.init();
