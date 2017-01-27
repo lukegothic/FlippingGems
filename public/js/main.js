@@ -5,15 +5,25 @@ Game.placeTileSound = null;
 Game.PLAYERNUM = {
     NONE: 0,
     P1: 1,
-    P2: 2
+    P2: 2,
+    AI: 3
 };
-Game.board = [];
 Game.currentPlayer = null;
+Game.MODE = {
+    RANKED: 0,
+    HOTSEAT: 1,
+    VSAI: 2
+};
+Game.mode = null;
+Game.board = [];
 Game.displayPlayer = function(player) {
     player = player || this.currentPlayer;
     $("body").removeClass().addClass("player" + player + "bg");
 };
-Game.nextPlayer = function() {
+Game.nextPlayerRANKED = function() {
+    // TODO
+};
+Game.nextPlayerHOTSEAT = function() {
     switch (this.currentPlayer) {
         case 1:
             this.currentPlayer = this.PLAYERNUM.P2;
@@ -22,11 +32,26 @@ Game.nextPlayer = function() {
             this.currentPlayer = this.PLAYERNUM.P1;
         break;
         default:
-        this.currentPlayer = Math.round(Math.random()) + 1;
+            this.currentPlayer = Math.round(Math.random()) + 1;
         break;
     }
     this.displayPlayer();
 };
+Game.nextPlayerVSAI = function() {
+    switch (this.currentPlayer) {
+        case this.PLAYERNUM.P1:
+            this.currentPlayer = this.PLAYERNUM.P2;
+            this.placeMove(this.AI.GetMove());
+        break;
+        case this.PLAYERNUM.P2:
+        default:
+            this.currentPlayer = this.PLAYERNUM.P1;
+        break;
+    }
+    this.displayPlayer();
+};
+// Funcion que se sobreescribe en funcion del modo de juego
+Game.nextPlayer = function() {};
 Game.getScores = function() {
     var scores = [0, 0, 0];
     for (var i = 0; i < this.board.length; i++) {
@@ -90,6 +115,20 @@ Game.newGame = function() {
         $(this).fadeOut();
     })
     this.updateScore();
+    switch (this.mode) {
+        case this.MODE.RANKED:
+            this.nextPlayer = this.nextPlayerRANKED;
+        break;
+        case this.MODE.HOTSEAT:
+            this.nextPlayer = this.nextPlayerHOTSEAT;
+        break;
+        case this.MODE.VSAI:
+            this.nextPlayer = this.nextPlayerVSAI;
+        break;
+        default:
+            this.nextPlayer = this.nextPlayerVSAI;
+        break;
+    }
     this.nextPlayer();
 };
 Game.endGame = function (scores) {
@@ -118,31 +157,34 @@ Game.generatePulsation = function(src) {
         Game.generateWave(src);
     }, 200);
 }
+Game.placeMove = function(position) {
+    var square = Game.board[position.x][position.y].elem;
+    Game.board[position.x][position.y].who = this.currentPlayer;
+    square.removeClass().addClass("tile square player" + this.currentPlayer);
+    Game.generatePulsation(square);
+    Game.placeTileSound[0].play();
+    var adjacentSquares = Game.getAdjacentSquares(position);
+    var theSquare;
+    for (var i = 0; i < adjacentSquares.length; i++) {
+        theSquare = Game.board[adjacentSquares[i].x][adjacentSquares[i].y];
+        if (theSquare.who !== this.currentPlayer && theSquare.who !== Game.PLAYERNUM.NONE) {
+            theSquare.who = this.currentPlayer;
+            theSquare.elem.removeClass().addClass("tile square player" + this.currentPlayer);
+        }
+    }
+    var scores = Game.getScores();
+    Game.updateScore(status);
+    if (scores[Game.PLAYERNUM.NONE] == 0) {
+        Game.endGame(scores);
+    } else {
+        Game.nextPlayer();
+    }
+};
 Game.init = function() {
     $(".board").on("click", ".square", function() {
-        var square = $(this);
-        var squareInfo = square.data();
+        var squareInfo = $(this).data();
         if (Game.board[squareInfo.x][squareInfo.y].who == Game.PLAYERNUM.NONE) {
-            Game.board[squareInfo.x][squareInfo.y].who = Game.currentPlayer;
-            square.removeClass().addClass("tile square player" + Game.currentPlayer);
-            Game.generatePulsation(square);
-            Game.placeTileSound[0].play();
-            var adjacentSquares = Game.getAdjacentSquares(squareInfo);
-            var theSquare;
-            for (var i = 0; i < adjacentSquares.length; i++) {
-                theSquare = Game.board[adjacentSquares[i].x][adjacentSquares[i].y];
-                if (theSquare.who !== Game.currentPlayer && theSquare.who !== Game.PLAYERNUM.NONE) {
-                    theSquare.who = Game.currentPlayer;
-                    theSquare.elem.removeClass().addClass("tile square player" + Game.currentPlayer);
-                }
-            }
-            var scores = Game.getScores();
-            Game.updateScore(status);
-            if (scores[Game.PLAYERNUM.NONE] == 0) {
-                Game.endGame(scores);
-            } else {
-                Game.nextPlayer();
-            }
+            Game.placeMove(squareInfo);
         } else {
             console.log("casilla ocupada por " + Game.board[squareInfo.x][squareInfo.y].who);
         }
@@ -151,7 +193,7 @@ Game.init = function() {
         Game.newGame();
     });
     this.bgMusic = $("#bgSound");
-    this.bgMusic[0].volume = 0.1;
+    this.bgMusic[0].volume = 0;
     this.placeTileSound = $("#ficha");
     this.newGame();
 };
