@@ -41,10 +41,12 @@ Game.nextPlayerVSAI = function() {
     var _self = this;
     switch (this.currentPlayer) {
         case this.PLAYERNUM.P1:
+            Game.disableTileClick();
             this.currentPlayer = this.PLAYERNUM.P2;
             var move = this.AI.GetMove();
             window.setTimeout(function() {
                 _self.placeMove(move);
+                Game.enableTileClick();
             }, 1000);
         break;
         case this.PLAYERNUM.P2:
@@ -186,19 +188,26 @@ Game.placeMove = function(position) {
         Game.nextPlayer();
     }
 };
+Game.tileClick = function() {
+    var squareInfo = $(this).data();
+    if (Game.board[squareInfo.x][squareInfo.y].who == Game.PLAYERNUM.NONE) {
+        Game.placeMove(squareInfo);
+    } else {
+        console.log("casilla ocupada por " + Game.board[squareInfo.x][squareInfo.y].who);
+    }
+};
+Game.disableTileClick = function() {
+    $(".board").off("click", ".square", Game.tileClick);
+};
+Game.enableTileClick = function() {
+    $(".board").on("click", ".square", Game.tileClick);
+};
 Game.init = function() {
     $("#end").hide();
     $(".presentacion").click(function() {
         $(this).fadeOut();
     });
-    $(".board").on("click", ".square", function() {
-        var squareInfo = $(this).data();
-        if (Game.board[squareInfo.x][squareInfo.y].who == Game.PLAYERNUM.NONE) {
-            Game.placeMove(squareInfo);
-        } else {
-            console.log("casilla ocupada por " + Game.board[squareInfo.x][squareInfo.y].who);
-        }
-    });
+    Game.enableTileClick();
     $("#newGame").click(function() {
         Game.newGame();
     });
