@@ -2,9 +2,8 @@ Game = window.Game || {};
 Game.AI = (function () {
     var ai = {};
     ai.algorithm = null;
-    var EasyAlgorithm = function() {
-        // Mapear puntuaciones
-        var boardScores = [], score;
+    var GetSimpleScoreBoard = function(player) {
+        var boardScores = [], squareScore;
         for (var f = 0; f < Game.board.length; f++) {
             boardScores.push([]);
             for (var c = 0; c < Game.board[f].length; c++) {
@@ -13,31 +12,65 @@ Game.AI = (function () {
                 } else {
                     squareScore = 0;
                     // arriba
-                    if (f > 0 && Game.board[f-1][c].who && Game.board[f-1][c].who === Game.PLAYERNUM.P1) {
-                        squareScore++;
+                    if (f > 0) {
+                        squareWho = Game.board[f-1][c].who;
+                        if (squareWho !== Game.PLAYERNUM.NONE && squareWho !== player) {
+                            squareScore++;
+                        }
                     }
                     // abajo
-                    if (f < (Game.board[f].length - 1) && Game.board[f+1][c].who === Game.PLAYERNUM.P1) {
-                        squareScore++;
+                    if (f < (Game.board[f].length - 1)) {
+                        squareWho = Game.board[f+1][c].who;
+                        if (squareWho !== Game.PLAYERNUM.NONE && squareWho !== player) {
+                            squareScore++;
+                        }
                     }
                     // izda
-                    if (c > 0 && Game.board[f][c-1].who === Game.PLAYERNUM.P1) {
-                        squareScore++;
+                    if (c > 0) {
+                        squareWho = Game.board[f][c-1].who;
+                        if (squareWho !== Game.PLAYERNUM.NONE && squareWho !== player) {
+                            squareScore++;
+                        }
                     }
                     // drcha
-                    if (c < (Game.board[c].length - 1) && Game.board[f][c+1].who === Game.PLAYERNUM.P1) {
-                        squareScore++;
+                    if (c < (Game.board[c].length - 1)) {
+                        squareWho = Game.board[f][c+1].who;
+                        if (squareWho !== Game.PLAYERNUM.NONE && squareWho !== player) {
+                            squareScore++;
+                        }
                     }
                 }
                 boardScores[f][c] = squareScore;
             }
         }
+        return boardScores;
+    };
+    var GetBoardScoreStats = function(scoreBoard) {
+        var total = 0;
+        var max = -99;
+        scoreBoard.forEach(function(fila) {
+            fila.forEach(function(columna) {
+                columna = columna || 0;
+                total+= columna;
+                if (columna > max) {
+                    max = columna;
+                }
+            });
+        });
+        return { max: max, total: total };
+    };
+    var SimulateMove = function(tile, player) {
+        var simulatedBoard = $.extend(true, [], Game.board);
+
+        return simulatedBoard;
+    };
+    var EasyAlgorithm = function() {
+        var sbs = GetSimpleScoreBoard(Game.PLAYERNUM.P2);
         // Elegir tile
-        var opts = [];
-        var maxValue = -99;
-        for (var f = 0; f < boardScores.length; f++) {
-            for (var c = 0; c < boardScores[f].length; c++) {
-                squareScore = boardScores[f][c];
+        var opts = [], maxValue = -99, squareScore;
+        for (var f = 0; f < sbs.length; f++) {
+            for (var c = 0; c < sbs[f].length; c++) {
+                squareScore = sbs[f][c];
                 if (squareScore !== null) {
                     if (squareScore > maxValue) {
                         opts = [];
@@ -49,11 +82,28 @@ Game.AI = (function () {
                 }
             }
         }
-        console.log(opts);
         return opts.length === 1 ? opts[0] : opts[Math.floor(Math.random() * opts.length)];
     };
     var MediumAlgorithm = function() {
+        // obtener score por recuadro
+        var ssb = GetSimpleScoreBoard(Game.PLAYERNUM.P2);
+        // simular cada posibilidad por cada opcion
+        var complexScoreBoard = [];
+        var nextMoveSim;
+        var bss;
+        ssb.forEach(function(fila) {
+            fila.forEach(function(columna) {
+                if (columna !== null) {
+                    // TODO: esto no funciona hay que hacer bucle for normal
+                    nextMoveSim = SimulateMove({ x: fila, y: columna }, Game.PLAYERNUM.P1);
+                    bss = GetBoardScoreStats(nextMoveSim);
+                    //complexScoreBoard[x,y] = columna - bss.max;
+                } else {
 
+                }
+            });
+        });
+        //$.extend(true, [], a);
     };
     var HardAlgorithm = function() {
 

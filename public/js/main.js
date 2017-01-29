@@ -127,7 +127,7 @@ Game.newGame = function(mode) {
         for (var j = 0; j < this.boardSize; j++) {
             this.board[i][j] = {
                 who: this.PLAYERNUM.NONE,
-                elem: $("<div>").addClass("square player" + this.PLAYERNUM.NONE).data({ x: i, y: j})
+                elem: $("<div>").addClass("square player" + this.PLAYERNUM.NONE).data({ x: i, y: j })
             };
             rowElm.append(this.board[i][j].elem);
         }
