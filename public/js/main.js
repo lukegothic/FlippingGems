@@ -38,10 +38,14 @@ Game.nextPlayerHOTSEAT = function() {
     this.displayPlayer();
 };
 Game.nextPlayerVSAI = function() {
+    var _self = this;
     switch (this.currentPlayer) {
         case this.PLAYERNUM.P1:
             this.currentPlayer = this.PLAYERNUM.P2;
-            this.placeMove(this.AI.GetMove());
+            var move = this.AI.GetMove();
+            window.setTimeout(function() {
+                _self.placeMove(move);
+            }, 1000);
         break;
         case this.PLAYERNUM.P2:
         default:

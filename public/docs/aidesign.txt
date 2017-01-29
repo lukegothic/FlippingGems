@@ -1,0 +1,9 @@
+easy:
+- calcular matriz de puntuacion actual
+- elegir tal
+medium
+- calcular matriz de puntuacion actual
+- elegir tal
+- calcular matriz de puntuacion para player actual
+- elegir again
+- 
